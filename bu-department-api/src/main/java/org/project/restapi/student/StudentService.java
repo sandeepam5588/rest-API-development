@@ -27,18 +27,18 @@ public class StudentService {
 		studentRepository.findAll().forEach(students::add);
 		return students;
 	}
-	public Optional<Student> getStudent(String id) {
-		return studentRepository.findById(id);
+	public Optional<Student> getStudent(String regno) {
+		return studentRepository.findById(regno);
 	}
-	public String updateStudent(String id, Student student) {
+	public String updateStudent(String regno, Student student) {
 		studentRepository.save(student);
 		return "record updated successfully";
 	}
-	public String deleteStudent(String id) {
+	public String deleteStudent(String regno) {
 		try {
-		studentRepository.deleteById(id);
+		studentRepository.deleteById(regno);
 		} catch(EmptyResultDataAccessException ex) {
-			return "student record with the regno "+ id + " does not exist..!";
+			return "student record with the regno "+ regno + " does not exist..!";
 		}
 		return "record deleted successfully";
 	}

@@ -30,14 +30,14 @@ public class StudentController {
 		return studentService.addStudent(student);
 	}
 	
-	@RequestMapping(method = RequestMethod.PUT, value = "/api/v1/bu/students/{id}")
-	public String updateStudent(@RequestBody Student student, @PathVariable String id) {
-		return studentService.updateStudent(id, student);
+	@RequestMapping(method = RequestMethod.PUT, value = "/api/v1/bu/students/{regno}")
+	public String updateStudent(@RequestBody Student student, @PathVariable String regno) {
+		return studentService.updateStudent(regno, student);
 	}
 	
-	@RequestMapping(method = RequestMethod.DELETE, value = "/api/v1/bu/students/{id}")
-	public String deleteStudent(@PathVariable String id) {
-		return studentService.deleteStudent(id);
+	@RequestMapping(method = RequestMethod.DELETE, value = "/api/v1/bu/students/{regno}")
+	public String deleteStudent(@PathVariable String regno) {
+		return studentService.deleteStudent(regno);
 	}
 	
 
