@@ -9,4 +9,7 @@ public interface CourseRepository extends CrudRepository<Course, String>{
 
 	public ArrayList<Course> findByDepartment(String departmentName);
 
+	public Iterable<Object> findByCourseName(String name);
+
+
 }
