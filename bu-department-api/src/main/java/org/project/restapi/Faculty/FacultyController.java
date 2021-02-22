@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/bu")
+@RequestMapping("/api/v1/bu/computerscience/mca")
 public class FacultyController {
 	
 	@Autowired

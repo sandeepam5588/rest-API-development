@@ -2,7 +2,6 @@ package org.project.restapi.department;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -20,8 +19,8 @@ public class DepartmentService {
     	return depts;
     }
 
-	public Optional<Department> getDepartment(String id) {
-		return departmentRepository.findById(id);
+	public Department getDepartment(String departmentName) {
+		return departmentRepository.findByName(departmentName);
 	}
 
 	public String addDepartment(Department dept) {
@@ -29,9 +28,12 @@ public class DepartmentService {
 		return "record added successfully";
 	}
 
-	public String updateDepartment(String id, Department dept) {
-		departmentRepository.save(dept);
-		return "record updated successfully";
+	public String updateDepartment(String departmentName, Department dept) {
+		if(dept.getName().equalsIgnoreCase(departmentName)) {
+			departmentRepository.save(dept);
+			return "record updated successfully";
+		}
+		return "department name cant be altered";
 	}
 
 	public String deleteDepartment(String id) {

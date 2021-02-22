@@ -16,15 +16,15 @@ public class Faculty {
 	@Embedded
 	private ContactDetail contact;
 	private Date dateOfAppointment;
-	private Date dateOfResignation;
+	private Date dateOfLeaving;
 	public Faculty() { }
-	public Faculty(String id, String name, ContactDetail contact, Date dateOfAppointment, Date dateOfResignation) {
+	public Faculty(String id, String name, ContactDetail contact, Date dateOfAppointment, Date dateOfLeaving) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.contact = contact;
 		this.dateOfAppointment = dateOfAppointment;
-		this.dateOfResignation = dateOfResignation;
+		this.dateOfLeaving = dateOfLeaving;
 	}
 	public String getId() {
 		return id;
@@ -51,15 +51,15 @@ public class Faculty {
 		this.dateOfAppointment = dateOfAppointment;
 	}
 	public Date getDateOfResignation() {
-		return dateOfResignation;
+		return dateOfLeaving;
 	}
-	public void setDateOfResignation(Date dateOfResignation) {
-		this.dateOfResignation = dateOfResignation;
+	public void setDateOfResignation(Date dateOfLeaving) {
+		this.dateOfLeaving = dateOfLeaving;
 	}
 	@Override
 	public String toString() {
 		return "Faculty [id=" + id + ", name=" + name + ", contact=" + contact + ", dateOfAppointment="
-				+ dateOfAppointment + ", dateOfResignation=" + dateOfResignation + "]";
+				+ dateOfAppointment + ", dateOfLeaving=" + dateOfLeaving + "]";
 	}
 	
 }

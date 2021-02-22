@@ -14,28 +14,28 @@ import org.springframework.web.bind.annotation.RestController;
 public class StudentController {
 	@Autowired
 	private StudentService studentService;
-	
-	@RequestMapping("/api/v1/bu/students")
+
+	@RequestMapping("/api/v1/bu/mca/students")
 	public List<Student> getAllStudents() {
 		return studentService.getAllStudents();
 	}
 	
-	@RequestMapping("/api/v1/bu/students/{id}")
+	@RequestMapping("/api/v1/bu/mca/students/{id}")
 	public Optional<Student> getStudent(@PathVariable String id) {
 		return studentService.getStudent(id);
 	}
 	
-	@RequestMapping(method= RequestMethod.POST, value = "/api/v1/bu/students")
+	@RequestMapping(method= RequestMethod.POST, value = "/api/v1/bu/mca/students")
 	public String addStudent(@RequestBody Student student) {
 		return studentService.addStudent(student);
 	}
 	
-	@RequestMapping(method = RequestMethod.PUT, value = "/api/v1/bu/students/{regno}")
+	@RequestMapping(method = RequestMethod.PUT, value = "/api/v1/bu/mca/students/{regno}")
 	public String updateStudent(@RequestBody Student student, @PathVariable String regno) {
 		return studentService.updateStudent(regno, student);
 	}
 	
-	@RequestMapping(method = RequestMethod.DELETE, value = "/api/v1/bu/students/{regno}")
+	@RequestMapping(method = RequestMethod.DELETE, value = "/api/v1/bu/mca/students/{regno}")
 	public String deleteStudent(@PathVariable String regno) {
 		return studentService.deleteStudent(regno);
 	}

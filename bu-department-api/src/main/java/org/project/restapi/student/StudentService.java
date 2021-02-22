@@ -14,25 +14,34 @@ public class StudentService {
 	@Autowired
 	private StudentRepository studentRepository;
 	
-	public String addStudent(Student student) {
-		try {
-		studentRepository.save(student);
-		} catch(DataIntegrityViolationException ex) {
-			return "Duplicate Key..!" + student.getRegno() + " Regno already exists";
-		}
-		return "recored added successfully";
-	}
 	public List<Student> getAllStudents() {
 		List<Student> students = new ArrayList<>();
 		studentRepository.findAll().forEach(students::add);
 		return students;
 	}
+	
 	public Optional<Student> getStudent(String regno) {
 		return studentRepository.findById(regno);
 	}
+	
+	public String addStudent(Student student) {
+		try {
+			if(studentRepository.findByRegno(student.getRegno()) == null)
+		       studentRepository.save(student);
+			else
+				throw new DataIntegrityViolationException("duplicate key");
+		} catch(DataIntegrityViolationException ex) {
+			return "Duplicate Key..!" + student.getRegno() + " Regno already exists";
+		}
+		return "recored added successfully";
+	}
 	public String updateStudent(String regno, Student student) {
-		studentRepository.save(student);
-		return "record updated successfully";
+		if(student.getRegno().equalsIgnoreCase(regno)) {
+			studentRepository.save(student);
+			return "record updated successfully";	
+		}
+		return "regno can't be altered";
+		
 	}
 	public String deleteStudent(String regno) {
 		try {
