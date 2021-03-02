@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,7 +41,7 @@ public class StudentController {
 	}
 	
 	@PostMapping("/api/v1/bu/mca/students")
-	public ResponseEntity<String> addNewStudent(@RequestBody Student student) {
+	public ResponseEntity<String> addNewStudent(@Valid @RequestBody Student student) {
 		 if(studentService.addStudent(student)) {
 			 message = "record created";
 			 return new ResponseEntity<>(message, HttpStatus.CREATED);
@@ -50,7 +51,7 @@ public class StudentController {
 	}
 	
 	@PutMapping("/api/v1/bu/mca/students/{regno}")
-	public ResponseEntity<String> updateStudent(@RequestBody Student student, @PathVariable String regno) {
+	public ResponseEntity<String> updateStudent(@Valid @RequestBody Student student, @PathVariable String regno) {
 		 if(studentService.updateStudent(regno, student)) {
 			 message = "record updated";
 			 return new ResponseEntity<>(message, HttpStatus.OK);

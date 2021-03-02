@@ -2,19 +2,51 @@ package org.project.restapi.student;
 
 import java.util.Date;
 
+import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Student {
 	@Id
+	@NotNull
 	private String regno;
+	
+	@NotNull
+	@Size(min=3, message="Name should have atleast 3 characters")
 	private String name;
+	
+	@NotNull
+	@Size(min=2, message="course name should have atleast 2 characters")
 	private String course;
+	
+	@NotNull
 	private String semester;
+	
+	@NotNull
+	@Past
+	@Basic
+	@Temporal(TemporalType.DATE)
 	private Date dateOfBirth;
+	
+	@NotNull
+	@Min(19)
+	@Max(99)
 	private int age;
+	
+	@NotNull
+	@Past
+	@Basic
+	@Temporal(TemporalType.DATE)
 	private Date dateOfJoining;
+	
 	private Date dateOfLeaving;
 	
 	public Student() { }

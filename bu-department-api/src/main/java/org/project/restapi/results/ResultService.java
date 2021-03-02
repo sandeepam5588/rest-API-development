@@ -24,6 +24,17 @@ public class ResultService {
 		resultRepository.save(result);
 		return "record updated successfully";
 	}
+<<<<<<< Upstream, based on origin/main
+=======
+
+	public List<Result> getResultByRegno(String regno) {
+		return resultRepository.findAllByRegno(regno);
+	}
+
+	public List<Result> getResultByAcademicYearAndSemester(String academicYear, String sem) {
+		return resultRepository.findAllByAcademicYearAndSemester(academicYear, sem);
+	}
+>>>>>>> 162f957 miscellaneous
 	
 	
 
