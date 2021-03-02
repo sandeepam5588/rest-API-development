@@ -1,43 +1,73 @@
 package org.project.restapi.student;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class StudentController {
 	@Autowired
 	private StudentService studentService;
+	private String message;
 
-	@RequestMapping("/api/v1/bu/mca/students")
-	public List<Student> getAllStudents() {
-		return studentService.getAllStudents();
+	@GetMapping("/api/v1/bu/mca/students")
+	protected List<Student> getAllStudents(HttpServletResponse response) {
+		List<Student> studentResouce = new ArrayList<>();
+	    studentResouce = studentService.getAllStudents();
+	    response.addIntHeader("Total-Records", studentResouce.size());
+	    return studentResouce;
 	}
 	
-	@RequestMapping("/api/v1/bu/mca/students/{id}")
-	public Optional<Student> getStudent(@PathVariable String id) {
-		return studentService.getStudent(id);
+	@GetMapping("/api/v1/bu/mca/students/{id}")
+	protected ResponseEntity<Object> getStudentResources(@PathVariable String id) {
+		Object obj = studentService.getStudent(id);
+		if (Student.class.isInstance(obj)) {
+			return new ResponseEntity<>(obj, HttpStatus.FOUND);
+		}
+		 return new ResponseEntity<>(obj, HttpStatus.NOT_FOUND);
 	}
 	
-	@RequestMapping(method= RequestMethod.POST, value = "/api/v1/bu/mca/students")
-	public String addStudent(@RequestBody Student student) {
-		return studentService.addStudent(student);
+	@PostMapping("/api/v1/bu/mca/students")
+	public ResponseEntity<String> addNewStudent(@RequestBody Student student) {
+		 if(studentService.addStudent(student)) {
+			 message = "record created";
+			 return new ResponseEntity<>(message, HttpStatus.CREATED);
+		 }
+		 message = "Duplicate Key..!" + student.getRegno() + " Regno already exists";
+		 return new ResponseEntity<>(message, HttpStatus.CONFLICT);	 
 	}
 	
-	@RequestMapping(method = RequestMethod.PUT, value = "/api/v1/bu/mca/students/{regno}")
-	public String updateStudent(@RequestBody Student student, @PathVariable String regno) {
-		return studentService.updateStudent(regno, student);
+	@PutMapping("/api/v1/bu/mca/students/{regno}")
+	public ResponseEntity<String> updateStudent(@RequestBody Student student, @PathVariable String regno) {
+		 if(studentService.updateStudent(regno, student)) {
+			 message = "record updated";
+			 return new ResponseEntity<>(message, HttpStatus.OK);
+		 }
+		 message = "record does not exist or regno in the uri and the payload must be same";
+		 return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
 	}
 	
-	@RequestMapping(method = RequestMethod.DELETE, value = "/api/v1/bu/mca/students/{regno}")
-	public String deleteStudent(@PathVariable String regno) {
-		return studentService.deleteStudent(regno);
+	@DeleteMapping("/api/v1/bu/mca/students/{regno}")
+	public ResponseEntity<String> deleteStudent(@PathVariable String regno) {
+		if(studentService.deleteStudent(regno)) {
+			message = "record deleted successfully";
+			return new ResponseEntity<>(message, HttpStatus.OK);
+		}
+		
+		 message = "student record with the regno "+ regno + " does not exist..!";
+		 return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
 	}
 	
 

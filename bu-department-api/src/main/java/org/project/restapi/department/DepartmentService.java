@@ -24,6 +24,9 @@ public class DepartmentService {
 	}
 
 	public String addDepartment(Department dept) {
+		if(departmentRepository.findByName(dept.getName()) != null) {
+			return dept.getName() + " record already exist...!";
+		}
 		departmentRepository.save(dept);
 		return "record added successfully";
 	}

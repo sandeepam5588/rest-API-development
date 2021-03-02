@@ -15,41 +15,49 @@ public class StudentService {
 	private StudentRepository studentRepository;
 	
 	public List<Student> getAllStudents() {
-		List<Student> students = new ArrayList<>();
-		studentRepository.findAll().forEach(students::add);
-		return students;
+		List<Student> studentResouce = new ArrayList<>();
+		studentRepository.findAll().forEach(studentResouce::add);
+		return studentResouce;
 	}
 	
-	public Optional<Student> getStudent(String regno) {
-		return studentRepository.findById(regno);
+	
+	public Object getStudent(String regno) {
+		Optional<Student> singleStudentRecord = studentRepository.findById(regno);
+		if(singleStudentRecord.isPresent()) return singleStudentRecord;
+		return "record not found";
 	}
 	
-	public String addStudent(Student student) {
+	public boolean addStudent(Student student) {
 		try {
 			if(studentRepository.findByRegno(student.getRegno()) == null)
 		       studentRepository.save(student);
 			else
 				throw new DataIntegrityViolationException("duplicate key");
 		} catch(DataIntegrityViolationException ex) {
-			return "Duplicate Key..!" + student.getRegno() + " Regno already exists";
+			return false;
 		}
-		return "recored added successfully";
+		return true;
 	}
-	public String updateStudent(String regno, Student student) {
+	public boolean updateStudent(String regno, Student student) {
+		Student isRecordExist = studentRepository.findByRegno(regno);
+		if(isRecordExist == null) {
+			return false;
+		}
+		
 		if(student.getRegno().equalsIgnoreCase(regno)) {
 			studentRepository.save(student);
-			return "record updated successfully";	
+			return true;	
 		}
-		return "regno can't be altered";
+		return false;
 		
 	}
-	public String deleteStudent(String regno) {
+	public boolean deleteStudent(String regno) {
 		try {
 		studentRepository.deleteById(regno);
 		} catch(EmptyResultDataAccessException ex) {
-			return "student record with the regno "+ regno + " does not exist..!";
+			return false;
 		}
-		return "record deleted successfully";
+		return true;
 	}
 
 	
